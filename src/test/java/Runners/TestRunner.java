@@ -9,5 +9,8 @@ import io.cucumber.testng.CucumberOptions;
         tags = "@check",
         plugin = {"pretty","junit:target/cucumber/cucumber.xml","json:target/cucumber/cucumber.json"}
 )
-public class TestRunner extends AbstractTestNGCucumberTests {
+public class TestRunner extends AbstractTestNGCucumberTests{
+    public void runTests(){
+
+    }
 }
