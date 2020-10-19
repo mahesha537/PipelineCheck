@@ -79,12 +79,22 @@ public class check1Steps {
         keyStroke(Keys.PAGE_DOWN);
         Actions act = new Actions(driver);
         act.keyDown(Keys.CONTROL).click(driver.findElement(By.xpath("//span[contains(text(),'Wikipedia')]"))).keyUp(Keys.CONTROL).build().perform();
+        driver.findElement(By.xpath("//input[@title='Search']")).clear();
+        driver.findElement(By.xpath("//input[@title='Search']")).sendKeys("Hi wiki");
+        act.keyDown(Keys.CONTROL).click(driver.findElement(By.xpath("//span[contains(text(),'HI - Wikipedia')]"))).keyUp(Keys.CONTROL).build().perform();
+        driver.findElement(By.xpath("//input[@title='Search']")).sendKeys(Keys.ENTER);
         switchToWindow("Hello (Adele song) - Wikipedia");
         System.out.println("Succesfully switched to the new window");
-        Thread.sleep(9000);
+        Thread.sleep(4000);
         keyStroke(Keys.PAGE_DOWN);
         keyStroke(Keys.PAGE_DOWN);
-        Thread.sleep(20000);
+        Thread.sleep(3000);
+        switchToWindow("HI - Wikipedia");
+        System.out.println("Succesfully switched to the new window");
+        Thread.sleep(4000);
+        keyStroke(Keys.PAGE_DOWN);
+        keyStroke(Keys.PAGE_DOWN);
+        Thread.sleep(10000);
 
 
 
@@ -97,21 +107,26 @@ public class check1Steps {
     }
 
     public void switchToWindow(String name){
+        int flag=0;
         try{
             ArrayList<String> windows = new ArrayList<String>(driver.getWindowHandles());
             if(windows.size()>0) {
                 System.out.println("windows size: "+windows.size());
-//                for(int i=0;i<windows.size();i++){
-//                    if(windows.get(i)){
-                        driver.switchTo().window(name);
-//                        break;
-//                    }else{
-//                        System.out.println("Not found at i = "+i);
-//                    }
+                for(int i=0;i<windows.size();i++){
+                    String Title = driver.switchTo().window(windows.get(i)).getTitle();
+                    if(Title.equalsIgnoreCase(name)){
+                        flag=1;
+                        driver.switchTo().window(windows.get(i));
+                        break;
+                    }else{
+                        flag=0;
+                    }
+                }if(flag==0){
+                    Assert.fail("window '"+name+"' is not found. Possibly window title passed is wrong");
                 }
-//            }else{
-//                Assert.fail("No Window is opened");
-//            }
+            }else{
+                Assert.fail("No Window is opened");
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
