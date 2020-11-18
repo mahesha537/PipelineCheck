@@ -1,4 +1,4 @@
-@check
+@check, @all
 Feature: Pipeline check1
   Scenario: Open Google website
     Given the user opens Google Webiste

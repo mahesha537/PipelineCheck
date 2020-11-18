@@ -12,11 +12,15 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import static config.GlobalParameter.Setting.SCount;
+import static config.GlobalParameter.Setting.ScenarioObj;
+
 public class check1Steps {
-    WebDriver driver;
+    public static WebDriver driver;
 
     @Before
     public void setup() {
@@ -71,28 +75,36 @@ public class check1Steps {
         wait.until(ExpectedConditions.titleIs("Hi - Google Search"));
         WebElement element = driver.findElement(By.xpath("//input[@name='q' and @type='text']"));
         keyStroke(Keys.PAGE_DOWN);
+        check1Steps.getScreenshot();
         element.clear();
         element.sendKeys("Hello");
         Thread.sleep(2000);
+        check1Steps.getScreenshot();
         keyStroke(Keys.ENTER);
-        Thread.sleep(9000);
+        Thread.sleep(5000);
         keyStroke(Keys.PAGE_DOWN);
+        check1Steps.getScreenshot();
         Actions act = new Actions(driver);
         act.keyDown(Keys.CONTROL).click(driver.findElement(By.xpath("//span[contains(text(),'Wikipedia')]"))).keyUp(Keys.CONTROL).build().perform();
         driver.findElement(By.xpath("//input[@title='Search']")).clear();
         driver.findElement(By.xpath("//input[@title='Search']")).sendKeys("Hi wiki");
+        check1Steps.getScreenshot();
+        keyStroke(Keys.ENTER);
         act.keyDown(Keys.CONTROL).click(driver.findElement(By.xpath("//span[contains(text(),'HI - Wikipedia')]"))).keyUp(Keys.CONTROL).build().perform();
         driver.findElement(By.xpath("//input[@title='Search']")).sendKeys(Keys.ENTER);
         switchToWindow("Hello (Adele song) - Wikipedia");
+        check1Steps.getScreenshot();
         System.out.println("Succesfully switched to the new window");
         Thread.sleep(4000);
         keyStroke(Keys.PAGE_DOWN);
         keyStroke(Keys.PAGE_DOWN);
         Thread.sleep(3000);
         switchToWindow("HI - Wikipedia");
+        check1Steps.getScreenshot();
         System.out.println("Succesfully switched to the new window");
         Thread.sleep(4000);
         keyStroke(Keys.PAGE_DOWN);
+        check1Steps.getScreenshot();
         keyStroke(Keys.PAGE_DOWN);
         Thread.sleep(10000);
 
@@ -104,6 +116,10 @@ public class check1Steps {
         Actions act = new Actions(driver);
         act.sendKeys(keyToPress).build().perform();
         Thread.sleep(3000);
+    }
+    public static void getScreenshot(){ //created by Mahesh
+        ScenarioObj.attach(((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES),"image/png","Image");
+        SCount=SCount+1;
     }
 
     public void switchToWindow(String name){
